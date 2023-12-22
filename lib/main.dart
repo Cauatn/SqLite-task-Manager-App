@@ -45,14 +45,16 @@ class _MyHomePageState extends State<MyHomePage> {
           return ((index == 0)
               ? const UserMessage()
               : Slidable(
+                  key: const ValueKey(0),
                   endActionPane: ActionPane(
                     motion: const BehindMotion(),
                     children: [
                       SlidableAction(
                         onPressed: (context) {},
                         icon: Icons.delete,
+                        foregroundColor: Colors.red,
                         label: 'delete',
-                        backgroundColor: Colors.red,
+                        backgroundColor: Colors.white,
                       )
                     ],
                   ),
@@ -75,31 +77,43 @@ class Task extends StatefulWidget {
 class _TaskState extends State<Task> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const Icon(
-        Icons.edit,
-      ),
-      title: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(0),
-              bottomRight: Radius.circular(0),
+    return SizedBox(
+      width: double.infinity,
+      height: 80,
+      child: Row(
+        children: [
+          const Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit),
+                Text('edit'),
+              ],
             ),
-            color: Color.fromARGB(255, 164, 132, 250)),
-        child: Text('title'),
-      ),
-      subtitle: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10),
+          ),
+          Expanded(
+            flex: 5,
+            child: Card(
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              color: const Color.fromARGB(255, 164, 132, 250),
+              child: const Padding(
+                padding: EdgeInsets.only(bottom: 12, left: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('data'),
+                    Text('data'),
+                  ],
+                ),
+              ),
             ),
-            color: Color.fromARGB(255, 164, 132, 250)),
-        child: Text('subtitle'),
+          ),
+        ],
       ),
     );
   }
