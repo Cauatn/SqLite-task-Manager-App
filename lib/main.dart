@@ -54,7 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> adicionarItem() async {
-    await SQLHelper.createTask('fie', 'bfe');
+    await SQLHelper.createTask('abc', 'bfe');
+    refreshDados();
+  }
+
+  Future<void> deletarItem(id) async {
+    await SQLHelper.deleteTask(id);
     refreshDados();
   }
 
@@ -73,7 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       motion: const BehindMotion(),
                       children: [
                         SlidableAction(
-                          onPressed: (context) {},
+                          onPressed: (context) {
+                            deletarItem(allData[index]['id']);
+                          },
                           icon: Icons.delete,
                           foregroundColor: Colors.red,
                           label: 'delete',
@@ -81,7 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         )
                       ],
                     ),
-                    child: Task(title: allData[index]['title']),
+                    child: Task(
+                      title: allData[index]['title'],
+                      description: allData[index]['description'],
+                    ),
                   ));
           },
         ),
@@ -89,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             adicionarItem();
           },
-          child: Text('oi'),
+          child: const Text('oi'),
         )
 
         //_buildFAB(),
@@ -99,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class Task extends StatefulWidget {
   final String title;
-  const Task({required this.title, super.key});
+  final String description;
+  const Task({required this.title, required this.description, super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -145,7 +156,7 @@ class _TaskState extends State<Task> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(widget.title),
-                    Text('data'),
+                    Text(widget.description != '' ? widget.description : ''),
                   ],
                 ),
               ),
