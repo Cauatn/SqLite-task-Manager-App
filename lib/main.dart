@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:todo_app_ui/components/home_app_bar.dart';
+import 'package:todo_app_ui/helpers/helper.dart';
 import 'components/user_message_component.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,46 +36,83 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //Inicializando lista com dados vazia
+  List<Map<String, dynamic>> allData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    refreshDados();
+  }
+
+  //Funçoes auxiliares que trocarei de lugar depois
+  void refreshDados() async {
+    final data = await SQLHelper.getItems();
+    setState(() {
+      allData = data;
+    });
+  }
+
+  Future<void> adicionarItem() async {
+    await SQLHelper.createTask('fie', 'bfe');
+    refreshDados();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HomeAppBar(),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return ((index == 0)
-              ? const UserMessage()
-              : Slidable(
-                  key: const ValueKey(0),
-                  endActionPane: ActionPane(
-                    motion: const BehindMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {},
-                        icon: Icons.delete,
-                        foregroundColor: Colors.red,
-                        label: 'delete',
-                        backgroundColor: Colors.white,
-                      )
-                    ],
-                  ),
-                  child: const Task(),
-                ));
-        },
-      ),
-      floatingActionButton: _buildFAB(),
-    );
+        appBar: const HomeAppBar(),
+        body: ListView.builder(
+          itemCount: allData.length,
+          itemBuilder: (context, index) {
+            return ((index == 0)
+                ? const UserMessage()
+                : Slidable(
+                    key: const ValueKey(0),
+                    endActionPane: ActionPane(
+                      motion: const BehindMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) {},
+                          icon: Icons.delete,
+                          foregroundColor: Colors.red,
+                          label: 'delete',
+                          backgroundColor: Colors.white,
+                        )
+                      ],
+                    ),
+                    child: Task(title: allData[index]['title']),
+                  ));
+          },
+        ),
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            adicionarItem();
+          },
+          child: Text('oi'),
+        )
+
+        //_buildFAB(),
+        );
   }
 }
 
 class Task extends StatefulWidget {
-  const Task({super.key});
+  final String title;
+  const Task({required this.title, super.key});
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint(widget.title.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -100,13 +138,13 @@ class _TaskState extends State<Task> {
                 borderRadius: BorderRadius.circular(10),
               ),
               color: const Color.fromARGB(255, 164, 132, 250),
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.only(bottom: 12, left: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('data'),
+                    Text(widget.title),
                     Text('data'),
                   ],
                 ),
