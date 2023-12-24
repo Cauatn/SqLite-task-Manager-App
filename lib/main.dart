@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_app_ui/components/home_app_bar.dart';
 import 'components/user_message_component.dart';
 
-void main() async {
+void main() {
   runApp(const MyApp());
 }
 
