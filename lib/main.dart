@@ -53,13 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
           right: 15,
           bottom: MediaQuery.of(context).viewInsets.bottom + 200,
         ),
-        child: const Column(
+        child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Text('data'),
-            Text('data2'),
+            const Text('data'),
+            const Text('data2'),
+            ElevatedButton(
+              onPressed: () async {
+                await adicionarItem();
+              },
+              child: Text('testar adicionar item'),
+            )
           ],
         ),
       ),
@@ -69,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    refreshDados();
+  }
+
+  /// Add Task Function
+  Future<void> adicionarItem() async {
+    await SQLHelper.createTask(
+      'teste titulo',
+      'teste descrição',
+    );
     refreshDados();
   }
 
