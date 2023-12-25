@@ -20,7 +20,7 @@ class UserMessage extends StatelessWidget {
             ),
           ),
           Text(
-            'Seus Projetos $tamanho',
+            'Seus Projetos ($tamanho)',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 35,

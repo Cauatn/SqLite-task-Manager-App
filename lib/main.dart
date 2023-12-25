@@ -6,30 +6,18 @@ import 'package:todo_app_ui/helpers/helper.dart';
 import 'components/user_message_component.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Todo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter todo-app'),
-    );
-  }
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      useMaterial3: true,
+    ),
+    home: const MyHomePage(),
+  ));
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -53,11 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> adicionarItem() async {
-    await SQLHelper.createTask('abc', 'bfe');
-    refreshDados();
-  }
-
   Future<void> deletarItem(id) async {
     await SQLHelper.deleteTask(id);
     refreshDados();
@@ -66,44 +49,37 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const HomeAppBar(),
-        body: ListView.builder(
-          itemCount: allData.length,
-          itemBuilder: (context, index) {
-            return ((index == 0)
-                ? UserMessage(tamanho: allData.length)
-                : Slidable(
-                    key: const ValueKey(0),
-                    endActionPane: ActionPane(
-                      motion: const BehindMotion(),
-                      children: [
-                        SlidableAction(
-                          onPressed: (context) {
-                            deletarItem(allData[index]['id']);
-                          },
-                          icon: Icons.delete,
-                          foregroundColor: Colors.red,
-                          label: 'delete',
-                          backgroundColor: Colors.white,
-                        )
-                      ],
-                    ),
-                    child: Task(
-                      title: allData[index]['title'],
-                      description: allData[index]['description'],
-                    ),
-                  ));
-          },
-        ),
-        floatingActionButton: ElevatedButton(
-          onPressed: () {
-            adicionarItem();
-          },
-          child: const Text('oi'),
-        )
-
-        //_buildFAB(),
-        );
+      appBar: const HomeAppBar(),
+      body: ListView.builder(
+        itemCount: allData.length,
+        itemBuilder: (context, index) {
+          return ((index == 0)
+              ? UserMessage(tamanho: allData.length)
+              : Slidable(
+                  key: const ValueKey(0),
+                  endActionPane: ActionPane(
+                    motion: const BehindMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (context) {
+                          deletarItem(allData[index]['id']);
+                        },
+                        icon: Icons.delete,
+                        foregroundColor: Colors.red,
+                        label: 'delete',
+                        backgroundColor: Colors.white,
+                      )
+                    ],
+                  ),
+                  child: Task(
+                    title: allData[index]['title'],
+                    description: allData[index]['description'],
+                  ),
+                ));
+        },
+      ),
+      floatingActionButton: _buildFAB(),
+    );
   }
 }
 
@@ -117,13 +93,6 @@ class Task extends StatefulWidget {
 }
 
 class _TaskState extends State<Task> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    debugPrint(widget.title.toString());
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
