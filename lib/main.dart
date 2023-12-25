@@ -30,7 +30,39 @@ class _MyHomePageState extends State<MyHomePage> {
   void showForm() async {
     showModalBottomSheet(
       context: context,
-      builder: (_) => Text('oi'),
+      elevation: 5,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+        ),
+      ),
+      builder: (_) => Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
+          ),
+        ),
+        padding: EdgeInsets.only(
+          top: 15,
+          left: 15,
+          right: 15,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 200,
+        ),
+        child: const Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text('data'),
+            Text('data2'),
+          ],
+        ),
+      ),
     );
   }
 
