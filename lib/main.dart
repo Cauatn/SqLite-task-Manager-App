@@ -6,7 +6,7 @@ import 'package:todo_app_ui/helpers/helper.dart';
 import 'components/user_message_component.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: allData.length,
           itemBuilder: (context, index) {
             return ((index == 0)
-                ? const UserMessage()
+                ? UserMessage(tamanho: allData.length)
                 : Slidable(
                     key: const ValueKey(0),
                     endActionPane: ActionPane(
@@ -150,7 +150,7 @@ class _TaskState extends State<Task> {
               ),
               color: const Color.fromARGB(255, 164, 132, 250),
               child: Padding(
-                padding: EdgeInsets.only(bottom: 12, left: 12),
+                padding: const EdgeInsets.only(bottom: 12, left: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,

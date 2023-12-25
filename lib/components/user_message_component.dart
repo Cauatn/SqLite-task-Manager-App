@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UserMessage extends StatelessWidget {
-  const UserMessage({super.key});
+  final int tamanho;
+  const UserMessage({required this.tamanho, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,9 @@ class UserMessage extends StatelessWidget {
               color: Colors.grey.shade500,
             ),
           ),
-          const Text(
-            'Seus Projetos (X)',
-            style: TextStyle(
+          Text(
+            'Seus Projetos $tamanho',
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 35,
               color: Colors.black,
