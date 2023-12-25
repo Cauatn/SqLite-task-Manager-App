@@ -27,6 +27,9 @@ class _MyHomePageState extends State<MyHomePage> {
   //Inicializando lista com dados vazia
   List<Map<String, dynamic>> allData = [];
 
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
   void showForm() async {
     showModalBottomSheet(
       context: context,
@@ -58,13 +61,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 50,
             ),
-            const Text('data'),
-            const Text('data2'),
+            TextFormField(controller: _titleController),
+            TextFormField(controller: _descriptionController),
             ElevatedButton(
               onPressed: () async {
-                await adicionarItem();
+                await adicionarItem(
+                  _titleController.text,
+                  _descriptionController.text,
+                );
               },
-              child: Text('testar adicionar item'),
+              child: const Text('adicionar item'),
             )
           ],
         ),
@@ -79,10 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   /// Add Task Function
-  Future<void> adicionarItem() async {
+  Future<void> adicionarItem(String title, String description) async {
     await SQLHelper.createTask(
-      'teste titulo',
-      'teste descrição',
+      title,
+      description,
     );
     refreshDados();
   }
