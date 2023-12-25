@@ -27,6 +27,13 @@ class _MyHomePageState extends State<MyHomePage> {
   //Inicializando lista com dados vazia
   List<Map<String, dynamic>> allData = [];
 
+  void showForm() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => Text('oi'),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -79,6 +86,38 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       floatingActionButton: _buildFAB(),
+    );
+  }
+
+  /// Floating Action Button
+  Widget _buildFAB() {
+    return SizedBox(
+      width: 220,
+      child: FloatingActionButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        backgroundColor: const Color.fromARGB(255, 164, 132, 250),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Anote um novo projeto",
+              style: TextStyle(
+                color: Color.fromARGB(245, 255, 255, 255),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Icon(
+              Icons.add,
+              color: Color.fromARGB(245, 255, 255, 255),
+            ),
+          ],
+        ),
+        onPressed: () => {
+          showForm(),
+        },
+      ),
     );
   }
 }
@@ -135,34 +174,4 @@ class _TaskState extends State<Task> {
       ),
     );
   }
-}
-
-/// Floating Action Button
-Widget _buildFAB() {
-  return SizedBox(
-    width: 220,
-    child: FloatingActionButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      backgroundColor: const Color.fromARGB(255, 164, 132, 250),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Anote um novo projeto",
-            style: TextStyle(
-              color: Color.fromARGB(245, 255, 255, 255),
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Icon(
-            Icons.add,
-            color: Color.fromARGB(245, 255, 255, 255),
-          ),
-        ],
-      ),
-      onPressed: () => {},
-    ),
-  );
 }
