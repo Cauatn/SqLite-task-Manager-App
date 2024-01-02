@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 15,
           left: 15,
           right: 15,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 200,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

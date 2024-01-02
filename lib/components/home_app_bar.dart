@@ -13,8 +13,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: IconButton(
           onPressed: () {},
-          icon: const Icon(
-            Icons.apps,
+            icon: const Icon(
+              Icons.apps,
             color: Colors.black,
             size: 40,
           )),
