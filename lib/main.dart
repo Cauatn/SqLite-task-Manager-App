@@ -295,8 +295,14 @@ class _TaskState extends State<Task> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(widget.title),
-                    Text(widget.description != '' ? widget.description : ''),
+                    Text(
+                      widget.title,
+                      style: const TextStyle(color: Colors.white, fontSize: 30),
+                    ),
+                    Text(
+                      widget.description != '' ? widget.description : '',
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ],
                 ),
               ),
