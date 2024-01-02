@@ -268,7 +268,6 @@ class _TaskState extends State<Task> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 80,
       child: Row(
         children: [
           const Expanded(
