@@ -32,7 +32,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  void showForm() async {
+  void showForm(int? id) async {
+    if (id != null) {
+      // id != null -> update an existing item
+      final existingJournal =
+          allData.firstWhere((element) => element['id'] == id);
+      _titleController.text = existingJournal['title'];
+      _descriptionController.text = existingJournal['description'];
+    }
     showModalBottomSheet(
       context: context,
       elevation: 5,
@@ -220,9 +227,58 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     ],
                   ),
-                  child: Task(
-                    title: allData[index]['title'],
-                    description: allData[index]['description'],
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () => showForm(allData[index]['id']),
+                                icon: const Icon(
+                                  Icons.edit,
+                                ),
+                              ),
+                              const Text('edit'),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            color: const Color.fromARGB(255, 164, 132, 250),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 12, left: 12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    allData[index]['title'],
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 26),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    allData[index]['description'],
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -260,68 +316,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         onPressed: () => {
-          showForm(),
+          showForm(null),
         },
-      ),
-    );
-  }
-}
-
-class Task extends StatefulWidget {
-  final String title;
-  final String description;
-  const Task({required this.title, required this.description, super.key});
-
-  @override
-  State<Task> createState() => _TaskState();
-}
-
-class _TaskState extends State<Task> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: Row(
-        children: [
-          const Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.edit),
-                Text('edit'),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Card(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              color: const Color.fromARGB(255, 164, 132, 250),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 12, left: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      widget.title,
-                      style: const TextStyle(color: Colors.white, fontSize: 26),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      widget.description != '' ? widget.description : '',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
