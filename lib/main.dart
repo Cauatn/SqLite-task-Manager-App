@@ -197,6 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: const HomeAppBar(),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UserMessage(tamanho: allData.length),
           Expanded(
