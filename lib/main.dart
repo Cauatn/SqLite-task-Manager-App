@@ -123,19 +123,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 left: 6,
               ),
               child: TextFormField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.only(
-                        top: 15,
-                      ), // add padding to adjust text
-                      isDense: true,
-                      hintText: "Description",
-                      iconColor: Colors.grey,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(
-                            top: 10), // add padding to adjust icon
-                        child: Icon(Icons.edit_document),
-                      ))),
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.only(
+                    top: 15,
+                  ), // add padding to adjust text
+                  isDense: true,
+                  hintText: "Description",
+                  iconColor: Colors.grey,
+                  prefixIcon: Padding(
+                    padding:
+                        EdgeInsets.only(top: 10), // add padding to adjust icon
+                    child: Icon(Icons.edit_document),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
               height: 50,
@@ -148,20 +150,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 backgroundColor: const Color.fromARGB(255, 164, 132, 250),
-                child: const Text(
-                  "Criar novo item",
-                  style: TextStyle(
+                child: Text(
+                  id == null ? 'Criar novo item' : 'Atualizar',
+                  style: const TextStyle(
                     color: Color.fromARGB(245, 255, 255, 255),
                   ),
                 ),
                 onPressed: () async {
-                  await adicionarItem(
-                    _titleController.text,
-                    _descriptionController.text,
-                  );
+                  if (id == null) {
+                    await adicionarItem(
+                        _titleController.text, _descriptionController.text);
+                  }
 
-                  _titleController.clear();
-                  _descriptionController.clear();
+                  if (id != null) {
+                    await updateItem(id);
+                  }
+
+                  _titleController.text = '';
+                  _descriptionController.text = '';
+
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -196,6 +205,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> deletarItem(id) async {
     await SQLHelper.deleteTask(id);
+    refreshDados();
+  }
+
+  /// Update Task Function
+  Future<void> updateItem(int id) async {
+    await SQLHelper.updateItem(
+        id, _titleController.text, _descriptionController.text);
     refreshDados();
   }
 

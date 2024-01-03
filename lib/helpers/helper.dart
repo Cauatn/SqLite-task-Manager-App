@@ -20,6 +20,22 @@ class SQLHelper {
     });
   }
 
+  // Update an item by id
+  static Future<int> updateItem(
+      int id, String title, String? description) async {
+    final db = await SQLHelper.db();
+
+    final data = {
+      'title': title,
+      'description': description,
+      'createdAt': DateTime.now().toString()
+    };
+
+    final result =
+        await db.update('items', data, where: "id = ?", whereArgs: [id]);
+    return result;
+  }
+
   // Função que cria uma nova Task
   static Future<int> createTask(String title, String? description) async {
     final db = await SQLHelper.db();
