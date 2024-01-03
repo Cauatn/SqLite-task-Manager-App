@@ -6,14 +6,16 @@ import 'package:todo_app_ui/helpers/helper.dart';
 import 'components/user_message_component.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      useMaterial3: true,
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(),
     ),
-    home: const MyHomePage(),
-  ));
+  );
 }
 
 class MyHomePage extends StatefulWidget {
@@ -94,16 +96,17 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.only(top: 15), // add padding to adjust text
-                    isDense: true,
-                    hintText: "Title",
-                    iconColor: Colors.grey,
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(
-                          top: 10), // add padding to adjust icon
-                      child: Icon(Icons.title_sharp),
-                    )),
+                  contentPadding:
+                      EdgeInsets.only(top: 15), // add padding to adjust text
+                  isDense: true,
+                  hintText: "Title",
+                  iconColor: Colors.grey,
+                  prefixIcon: Padding(
+                    padding:
+                        EdgeInsets.only(top: 10), // add padding to adjust icon
+                    child: Icon(Icons.title_sharp),
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -135,7 +138,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 45,
               child: FloatingActionButton(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 backgroundColor: const Color.fromARGB(255, 164, 132, 250),
                 child: const Text(
                   "Criar novo item",
@@ -148,6 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     _titleController.text,
                     _descriptionController.text,
                   );
+
+                  _titleController.clear();
+                  _descriptionController.clear();
                 },
               ),
             ),
@@ -189,12 +196,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(),
-      body: ListView.builder(
-        itemCount: allData.length,
-        itemBuilder: (context, index) {
-          return ((index == 0)
-              ? UserMessage(tamanho: allData.length)
-              : Slidable(
+      body: Column(
+        children: [
+          UserMessage(tamanho: allData.length),
+          Expanded(
+            child: ListView.builder(
+              itemCount: allData.length,
+              itemBuilder: (context, index) {
+                return Slidable(
                   key: const ValueKey(0),
                   endActionPane: ActionPane(
                     motion: const BehindMotion(),
@@ -214,8 +223,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: allData[index]['title'],
                     description: allData[index]['description'],
                   ),
-                ));
-        },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: _buildFAB(),
     );
@@ -296,7 +308,8 @@ class _TaskState extends State<Task> {
                   children: [
                     Text(
                       widget.title,
-                      style: const TextStyle(color: Colors.white, fontSize: 30),
+                      style: const TextStyle(color: Colors.white, fontSize: 26),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       widget.description != '' ? widget.description : '',
